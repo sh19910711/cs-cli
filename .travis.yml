@@ -4,5 +4,6 @@ go_import_path: github.com/codestand/build
 
 install:
   - make
+
 script:
   - go test -v ./...
