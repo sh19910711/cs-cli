@@ -14,7 +14,7 @@ type Command struct {
 	UsageLine string // The first word should stand for its command name.
 	Short     string
 	Flag      flag.FlagSet
-	Dev       bool
+	Dev       bool // If true, the command does not appear in the command list of usage()
 }
 
 // This variable can be overridden by `-ldflags "-X=main.Version=$VERSION"`.
