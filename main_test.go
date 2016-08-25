@@ -16,9 +16,9 @@ func ExampleVersion() {
 
 // $ codestand hello
 func ExampleHello() {
-	os.Args = []string{"cli", "hello"}
+	os.Args = []string{"cli", "hello", "world"}
 	main()
 
 	// Output:
-	// Hello []
+	// Hello [world]
 }
