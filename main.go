@@ -13,15 +13,17 @@ type Command struct {
 	// Each command should implement this function
 	Run func(cmd *Command, args []string)
 
+	// Usage describes how to use the command
 	// The first word stands for its command name.
 	Usage string
 
-	// Description
+	// Short is a short description in a line
 	Short string
 
+	// Flag handles command line options
 	Flag flag.FlagSet
 
-	// If true, the command does not appear in the command list of usage()
+	// If Dev is true, the command does not appear in the command list of usage()
 	Dev bool
 }
 
