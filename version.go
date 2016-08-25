@@ -1,6 +1,4 @@
-//
 // The "version" shows the version of the command.
-//
 package main
 
 import (

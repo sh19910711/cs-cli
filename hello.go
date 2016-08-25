@@ -11,6 +11,16 @@ var cmdHello = &Command{
 	Usage: "hello",
 }
 
+var helloHi bool
+
+func init() {
+	cmdHello.Flag.BoolVar(&helloHi, "hi", false, "")
+}
+
 func runHello(cmd *Command, args []string) {
-	fmt.Println("Hello", args)
+	if helloHi {
+		fmt.Println("Hi", args)
+	} else {
+		fmt.Println("Hello", args)
+	}
 }
