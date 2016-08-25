@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func capture() string {
+func capture(callback func()) string {
 	// create pipe
 	stderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -22,8 +22,8 @@ func capture() string {
 		ch <- buf.String()
 	}()
 
-	// call main function
-	run()
+	// fire
+	callback()
 
 	// reset
 	w.Close()
@@ -32,7 +32,9 @@ func capture() string {
 }
 
 func TestMain(t *testing.T) {
-	output := capture()
+	output := capture(func() {
+		run()
+	})
 
 	if !strings.Contains(output, "version") {
 		t.Fatal("should output 'version'")
