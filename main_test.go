@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestMain(t *testing.T) {
+func output() string {
 	// create pipe
 	stderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -28,12 +28,18 @@ func TestMain(t *testing.T) {
 	// reset
 	w.Close()
 	os.Stderr = stderr
-	output := <-ch
+	res := <-ch
+	return res
+}
 
-	if !strings.Contains(output, "version") {
+func TestMain(t *testing.T) {
+	s := output()
+
+	if !strings.Contains(s, "version") {
 		t.Fatal("should output 'version'")
 	}
-	if strings.Contains(output, "hello") {
+
+	if strings.Contains(s, "hello") {
 		t.Fatal("should not output 'hello'")
 	}
 }

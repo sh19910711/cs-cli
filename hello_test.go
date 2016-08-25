@@ -7,7 +7,7 @@ import (
 // $ codestand hello
 func ExampleHello() {
 	os.Args = []string{"cli", "hello", "world"}
-	main()
+	run()
 
 	// Output:
 	// Hello [world]

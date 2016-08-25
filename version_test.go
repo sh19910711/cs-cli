@@ -8,7 +8,7 @@ import (
 func ExampleVersion() {
 	Version = "hello"
 	os.Args = []string{"cli", "version"}
-	main()
+	run()
 
 	// Output:
 	// codestand/cli version hello
