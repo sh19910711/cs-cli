@@ -26,24 +26,28 @@ var commands = []*Command{
 }
 
 func main() {
+	os.Exit(run())
+}
+
+func run() int {
 	flag.Parse()
 	args := flag.Args()
 
 	if len(args) < 1 {
 		usage()
-		os.Exit(2)
+		return 2
 	}
 
 	for _, c := range commands {
 		if c.Name() == args[0] && c.Runnable() {
 			c.Flag.Parse(args[1:])
 			c.Run(c, c.Flag.Args())
-			return
+			return 0
 		}
 	}
 
 	fmt.Fprintln(os.Stderr, "unknown command")
-	os.Exit(2)
+	return 2
 }
 
 var usageTemplate = `codestand/cli
