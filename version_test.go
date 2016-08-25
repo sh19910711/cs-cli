@@ -13,12 +13,3 @@ func ExampleVersion() {
 	// Output:
 	// codestand/cli version hello
 }
-
-// $ codestand hello
-func ExampleHello() {
-	os.Args = []string{"cli", "hello", "world"}
-	main()
-
-	// Output:
-	// Hello [world]
-}
