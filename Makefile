@@ -1,6 +1,6 @@
-.PHONY: all build test
-
 VERSION=$(shell bin/version)
+
+.PHONY: all build test
 
 all: build
 
