@@ -4,6 +4,7 @@ import (
 	"os"
 )
 
+// $ codestand version
 func ExampleVersion() {
 	Version = "hello"
 	os.Args = []string{"cli", "version"}
@@ -13,6 +14,7 @@ func ExampleVersion() {
 	// codestand/cli version hello
 }
 
+// $ codestand hello
 func ExampleHello() {
 	os.Args = []string{"cli", "hello"}
 	main()
