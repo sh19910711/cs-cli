@@ -5,9 +5,9 @@ import (
 )
 
 var cmdVersion = &Command{
-	Run:       runVersion,
-	UsageLine: "version",
-	Short:     "print version",
+	Run:   runVersion,
+	Usage: "version",
+	Short: "print version",
 }
 
 func runVersion(cmd *Command, args []string) {

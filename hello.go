@@ -5,9 +5,9 @@ import (
 )
 
 var cmdHello = &Command{
-	Dev:       true,
-	Run:       runHello,
-	UsageLine: "hello",
+	Dev:   true,
+	Run:   runHello,
+	Usage: "hello",
 }
 
 func runHello(cmd *Command, args []string) {
