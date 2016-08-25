@@ -1,4 +1,4 @@
-.PHONY: run
+.PHONY: run test
 
 VERSION=$(shell bin/version)
 
