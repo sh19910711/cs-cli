@@ -10,11 +10,19 @@ import (
 )
 
 type Command struct {
-	Run   func(cmd *Command, args []string)
-	Usage string // The first word should stand for its command name.
+	// Each command should implement this function
+	Run func(cmd *Command, args []string)
+
+	// The first word stands for its command name.
+	Usage string
+
+	// Description
 	Short string
-	Flag  flag.FlagSet
-	Dev   bool // If true, the command does not appear in the command list of usage()
+
+	Flag flag.FlagSet
+
+	// If true, the command does not appear in the command list of usage()
+	Dev bool
 }
 
 // This variable can be overridden by `-ldflags "-X=main.Version=$VERSION"`.
