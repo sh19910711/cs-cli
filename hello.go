@@ -1,4 +1,4 @@
-// play ground
+// play ground to test main.go
 package main
 
 import (
