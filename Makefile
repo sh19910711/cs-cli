@@ -1,8 +1,10 @@
-.PHONY: run test
+.PHONY: all build test
 
 VERSION=$(shell bin/version)
 
-build: *.go
+all: build
+
+build:
 	go build -ldflags "-X=main.Version=$(VERSION)" -i -o codestand
 
 run:
