@@ -11,7 +11,7 @@ import (
 
 type Command struct {
 	// Each command should implement this function
-	Run func(cmd *Command, args []string)
+	Run func(cmd *Command, args []string) error
 
 	// Usage describes how to use the command
 	// The first word stands for its command name.
@@ -51,7 +51,9 @@ func run() int {
 	for _, c := range commands {
 		if c.Name() == args[0] && c.Runnable() {
 			c.Flag.Parse(args[1:])
-			c.Run(c, c.Flag.Args())
+			if err := c.Run(c, c.Flag.Args()); err != nil {
+				panic(err)
+			}
 			return 0
 		}
 	}

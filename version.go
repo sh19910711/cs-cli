@@ -11,6 +11,7 @@ var cmdVersion = &Command{
 	Short: "print version",
 }
 
-func runVersion(cmd *Command, args []string) {
+func runVersion(cmd *Command, args []string) error {
 	fmt.Printf("codestand/cli version %s\n", Version)
+	return nil
 }
