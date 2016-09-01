@@ -3,6 +3,7 @@ go: 1.7
 go_import_path: github.com/codestand/build
 
 install:
+  - make init
   - make
 
 script:

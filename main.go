@@ -11,6 +11,7 @@ import (
 var Version = "dev"
 
 var commands = []*Command{
+	cmdInstall,
 	cmdVersion,
 	cmdHello,
 	cmdNew,
