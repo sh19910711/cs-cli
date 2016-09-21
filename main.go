@@ -33,6 +33,7 @@ var Version = "dev"
 var commands = []*Command{
 	cmdVersion,
 	cmdHello,
+	cmdNew,
 }
 
 func main() {
