@@ -2,20 +2,18 @@ package main
 
 import (
 	"os"
-	"bytes"
-	"flag"
-	"io/ioutil"
-	"text/template"
 )
 
 var cmdNew = &Command{
-	Run:   runNew,
 	Usage: "new",
 	Short: "create a new project directory",
 }
 
-var applicationYamlTmpl = `
-api: 1
+func init() {
+	cmdNew.Run = runNew
+}
+
+var applicationYamlTmpl = `api: 1
 name: {{.AppName}}
 lang: c++
 
@@ -23,8 +21,7 @@ sources:
   - main.cpp
 `
 
-var mainCppTmpl = `
-#include <app.h>
+var mainCppTmpl = `#include <app.h>
 
 void setup() {
 
@@ -34,48 +31,53 @@ void setup() {
 
 var appName string
 
-func init() {
-	flag.Parse()
-	args := flag.Args()
-	appName = args[1]
-
-	// TODO: validate appName
+func createFile(path string, tmpl string, data interface{}) error {
+	r, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	if err := render(r, tmpl, data); err != nil {
+		return err
+	}
+	return nil
 }
 
+const newUsageTemplate = `Usage: codestand new <app-name> [options]
 
-func createFile(path string, tmpl string, data interface{}) {
-	t, err := template.New("application yaml").Parse(tmpl)
-	if err != nil {
-		panic(err)
-	}
+Options:
+  --template  USER/REPO    The template repository on GitHub.
 
-	var s bytes.Buffer
-	err = t.Execute(&s, data)
-	if err != nil {
-		panic(err)
-	}
-	
-	ioutil.WriteFile(path, s.Bytes(), 0644)
-}
-
+`
 
 func runNew(cmd *Command, args []string) error {
+	if len(args) != 1 {
+		renderErrorTemplate(newUsageTemplate, nil)
+		return ErrorMessage("arguments error")
+	}
 
+	appName = args[0]
 
-	// TODO: error check
-	os.Mkdir(appName, 0755)
-	os.Chdir(appName)
+	if err := os.Mkdir(appName, 0755); err != nil {
+		return err
+	}
+	if err := os.Chdir(appName); err != nil {
+		return err
+	}
 
 	applicationYamlData := struct {
 		AppName string
 	}{
 		appName,
 	}
-	createFile("application.yaml", applicationYamlTmpl, applicationYamlData)
+	if err := createFile("application.yaml", applicationYamlTmpl, applicationYamlData); err != nil {
+		return err
+	}
 
 	mainCppData := struct {
-	}{
+	}{}
+	if err := createFile("main.cpp", mainCppTmpl, mainCppData); err != nil {
+		return err
 	}
-	createFile("main.cpp", mainCppTmpl, mainCppData)
+
 	return nil
 }
