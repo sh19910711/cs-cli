@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 )
 
@@ -57,6 +58,7 @@ func runNew(cmd *Command, args []string) error {
 	if err := os.Mkdir(appName, 0755); err != nil {
 		return err
 	}
+	fmt.Printf("create %v\n", appName)
 	if err := os.Chdir(appName); err != nil {
 		return err
 	}
@@ -69,12 +71,14 @@ func runNew(cmd *Command, args []string) error {
 	if err := createFile("application.yaml", applicationYamlTmpl, applicationYamlData); err != nil {
 		return err
 	}
+	fmt.Printf("create %s/application.yaml\n", appName)
 
 	mainCppData := struct {
 	}{}
 	if err := createFile("main.cpp", mainCppTmpl, mainCppData); err != nil {
 		return err
 	}
+	fmt.Printf("create %s/main.cpp\n", appName)
 
 	return nil
 }
