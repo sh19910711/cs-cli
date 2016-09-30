@@ -12,6 +12,6 @@ func FileExist(path string) bool {
 
 func DownloadFile(url, path string) []error {
 	_, body, errs := gorequest.New().Get(url).EndBytes()
-	ioutil.WriteFile(image, body, 0644)
+	ioutil.WriteFile(path, body, 0644)
 	return errs
 }

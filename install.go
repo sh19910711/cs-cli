@@ -6,26 +6,36 @@ import (
 	"fmt"
 	"path"
 	"github.com/Songmu/prompter"
+	"github.com/urfave/cli"
 )
 
-var cmdInstall = &Command{
-	Dev:   false,
-	Run:   runInstall,
-	Usage: "install",
-	Short: "install OS",
+var installCommand = cli.Command {
+	Name: "install",
+	Usage: "install OS",
+	Action: doInstall,
+	Flags: []cli.Flag {
+		cli.StringFlag {
+			Name: "board",
+			Value:"",
+			Usage: "The board name. (esp8266)",
+		},
+		cli.StringFlag{
+			Name: "serial",
+			Value:"",
+			Usage: "The serial port. (e.g. /dev/tty.USB0)",
+		},
+		cli.StringFlag{
+			Name: "image",
+			Value:"",
+			Usage: "The firmware image file.",
+		},
+	},
 }
 
-
-var board string
-var serial string
-var image string
-func init() {
-	cmdInstall.Flag.StringVar(&board,  "board",  "",  "The board name. (esp8266)")
-	cmdInstall.Flag.StringVar(&serial, "serial", "",  "The serial port. (e.g. /dev/tty.USB0)")
-	cmdInstall.Flag.StringVar(&image,  "image",  "",  "The firmware image file.")
-}
-
-func runInstall(cmd *Command, args []string) error {
+func doInstall(c *cli.Context) error {
+	board := c.String("board")
+	serial := c.String("serial")
+	image := c.String("image")
 
 	// Prompts for those who does not know options.
 	if board == "" {

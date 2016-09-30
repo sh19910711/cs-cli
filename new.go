@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"os"
+	"github.com/urfave/cli"
 )
 
-var cmdNew = &Command{
-	Run:   runNew,
-	Usage: "new",
-	Short: "create a new project directory",
+var newCommand = cli.Command {
+	Name: "new",
+	Usage: "create a new project directory",
+	Action: doNew,
 }
 
 var applicationYamlTmpl = `api: 1
@@ -40,20 +41,8 @@ func createFile(path string, tmpl string, data interface{}) error {
 	return nil
 }
 
-const newUsageTemplate = `Usage: codestand new <app-name> [options]
-
-Options:
-  --template  USER/REPO    The template repository on GitHub.
-
-`
-
-func runNew(cmd *Command, args []string) error {
-	if len(args) != 1 {
-		renderErrorTemplate(newUsageTemplate, nil)
-		return ErrorMessage("arguments error")
-	}
-
-	appName = args[0] // TODO: validate appName
+func doNew(c *cli.Context) error {
+	appName = c.Args().Get(0) // TODO: validate appName
 
 	if err := os.Mkdir(appName, 0755); err != nil {
 		return err
