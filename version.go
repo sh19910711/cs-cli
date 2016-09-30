@@ -1,17 +1,17 @@
-// The "version" shows the version of the command.
 package main
 
 import (
 	"fmt"
+	"github.com/urfave/cli"
 )
 
-var cmdVersion = &Command{
-	Run:   runVersion,
-	Usage: "version",
-	Short: "print version",
+var versionCommand = cli.Command{
+	Name: "version",
+	Usage: "print version",
+	Action: doVersion,
 }
 
-func runVersion(cmd *Command, args []string) error {
+func doVersion(c *cli.Context) error {
 	fmt.Printf("codestand/cli version %s\n", Version)
 	return nil
 }
