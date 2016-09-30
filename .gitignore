@@ -1,1 +1,3 @@
-codestand
+/codestand
+/vendor
+!/vendor/vendor.json
