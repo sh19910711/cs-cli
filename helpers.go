@@ -10,8 +10,8 @@ func FileExist(path string) bool {
 	return !os.IsNotExist(err)
 }
 
-func DownloadFile(url, path string) []error {
+func DownloadFile(url, path string) error {
 	_, body, errs := gorequest.New().Get(url).EndBytes()
 	ioutil.WriteFile(path, body, 0644)
-	return errs
+	return errs[0]
 }

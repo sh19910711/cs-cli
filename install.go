@@ -67,7 +67,9 @@ func doInstall(c *cli.Context) error {
 		image = path.Join(GetConfigDir(), "cache", "firmware", board + ".img")
 		if !FileExist(image) {
 			PrepareConfigDir()
-			DownloadFile(fwURL, image)
+			if err := DownloadFile(fwURL, image); err != nil {
+				return err
+			}
 		}
 	}
 
