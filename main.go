@@ -11,6 +11,7 @@ var Version = "dev"
 
 var commands = []cli.Command{
 	newCommand,
+	configCommand,
 	versionCommand,
 	installCommand,
 }

@@ -55,6 +55,12 @@
 			"path": "golang.org/x/sys/unix",
 			"revision": "8f0908ab3b2457e2e15403d3697c9ef5cb4b57a9",
 			"revisionTime": "2016-09-14T20:33:16Z"
+		},
+		{
+			"checksumSHA1": "12GqsW8PiRPnezDDy0v4brZrndM=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "a5b47d31c556af34a302ce5d659e6fea44d90de0",
+			"revisionTime": "2016-09-28T15:37:09Z"
 		}
 	],
 	"rootPath": "github.com/codestand/cli"
