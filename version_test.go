@@ -1,14 +1,8 @@
 package main
 
-import (
-	"os"
-)
-
-// $ codestand version
 func ExampleVersion() {
 	Version = "hello"
-	os.Args = []string{"cli", "version"}
-	run()
+	App.Run([]string{"codestand", "version"})
 
 	// Output:
 	// codestand/cli version hello
