@@ -16,12 +16,16 @@ var commands = []cli.Command{
 	installCommand,
 }
 
-func main() {
+func Run(args []string) {
 	app := cli.NewApp()
 	app.Commands = commands
 	app.Version = Version
 	app.Usage = "Codestand CLI"
-	app.Run(os.Args)
+	app.Run(args)
+}
+
+func main() {
+	Run(os.Args)
 }
 
 func ErrorMessage(msg string) error {
