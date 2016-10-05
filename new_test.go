@@ -6,7 +6,7 @@ import (
 
 func ExampleNew() {
 	os.RemoveAll("./hello-world")
-	App.Run([]string{"codestand", "new", "hello-world"})
+	Run([]string{"codestand", "new", "hello-world"})
 
 	// Output:
 	// create hello-world
