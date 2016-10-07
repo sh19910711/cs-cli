@@ -2,9 +2,12 @@
 package main
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"path"
+	"os"
+	"io/ioutil"
 	"github.com/Songmu/prompter"
 	"github.com/urfave/cli"
 )
@@ -20,6 +23,11 @@ var installCommand = cli.Command {
 			Usage: "The board name. (esp8266)",
 		},
 		cli.StringFlag{
+			Name: "device_name",
+			Value:"",
+			Usage: "The device name.",
+		},
+		cli.StringFlag{
 			Name: "serial",
 			Value:"",
 			Usage: "The serial port. (e.g. /dev/tty.USB0)",
@@ -29,22 +37,51 @@ var installCommand = cli.Command {
 			Value:"",
 			Usage: "The firmware image file.",
 		},
+		cli.StringFlag{
+			Name: "wifi_ssid",
+			Value:"",
+			Usage: "The Wi-Fi SSID.",
+		},
+		cli.StringFlag{
+			Name: "wifi_password",
+			Value:"",
+			Usage: "The Wi-Fi password.",
+		},
 	},
 }
 
+func replaceAndFillBytes(content []byte, old, new string) ([]byte, error) {
+	oldBytes := []byte(old)
+	newBytes := []byte(new)
+	oldLen := len(oldBytes)
+	newLen := len(newBytes)
+
+	if oldLen - newLen < 0 {
+		return nil, errors.New("replacement is too long")
+	}
+
+        replacement := make([]byte, oldLen)
+	copy(replacement, newBytes)
+	content = bytes.Replace(content, oldBytes, replacement, oldLen)
+	return content, nil
+}
+
+func getArgumentOrPrompt(c *cli.Context, flag, desc, def string) string {
+	arg := c.String(flag)
+	if arg == "" {
+		arg = prompter.Prompt(desc, def)
+	}
+
+	return arg
+}
+
 func doInstall(c *cli.Context) error {
-	board := c.String("board")
-	serial := c.String("serial")
-	image := c.String("image")
-
-	// Prompts for those who does not know options.
-	if board == "" {
-		board = prompter.Prompt("Board Name", "esp8266")
-	}
-
-	if serial == "" {
-		serial = prompter.Prompt("Serial port", DEFAULT_SERIAL_PORT)
-	}
+	board        := getArgumentOrPrompt(c, "board", "Board name", "esp8266")
+	serial       := getArgumentOrPrompt(c, "serial", "Serial port", DEFAULT_SERIAL_PORT)
+	image        := c.String("image")
+	deviceName   := getArgumentOrPrompt(c, "device_name", "Device name", "")
+	wifiSSID     := getArgumentOrPrompt(c, "wifi_ssid", "Wi-Fi SSID", "")
+	wifiPassword := getArgumentOrPrompt(c, "wifi_password", "Wi-Fi password", "")
 
 	// Validate inputs.
 	var installer func(serial, image string) error
@@ -73,5 +110,30 @@ func doInstall(c *cli.Context) error {
 		}
 	}
 
-	return installer(serial, image)
+	// Copy the original image to a temporary file.
+	tmpImage, err := ioutil.TempFile("", "codestand")
+	if err != nil {
+		return err
+	}
+
+	defer os.Remove(tmpImage.Name())
+
+	content, err := ioutil.ReadFile(image)
+	if err != nil {
+		return err
+	}
+
+	// Replace REPLACE_ME.
+	content, err = replaceAndFillBytes(content, "__DEVICE_NAME__REPLACE_ME__", deviceName)
+	content, err = replaceAndFillBytes(content, "__WIFI_SSID__REPLACE_ME__", wifiSSID)
+	content, err = replaceAndFillBytes(content, "__WIFI_PASSWORD__REPLACE_ME__", wifiPassword)
+
+	if _, err := tmpImage.Write(content); err != nil {
+		return err
+	}
+	if err := tmpImage.Close(); err != nil {
+		return err
+	}
+
+	return installer(serial, tmpImage.Name())
 }
