@@ -51,18 +51,18 @@ var installCommand = cli.Command {
 }
 
 func replaceAndFillBytes(content []byte, old, new string) ([]byte, error) {
-	old_bytes := []byte(old)
-	new_bytes := []byte(new)
-	old_len := len(old_bytes)
-	new_len := len(new_bytes)
+	oldBytes := []byte(old)
+	newBytes := []byte(new)
+	oldLen := len(oldBytes)
+	newLen := len(newBytes)
 
-	if old_len - new_len < 0 {
+	if oldLen - newLen < 0 {
 		return nil, errors.New("replacement is too long")
 	}
 
-        replacement := make([]byte, old_len)
-	copy(replacement, new_bytes)
-	content = bytes.Replace(content, old_bytes, replacement, old_len)
+        replacement := make([]byte, oldLen)
+	copy(replacement, newBytes)
+	content = bytes.Replace(content, oldBytes, replacement, oldLen)
 	return content, nil
 }
 
@@ -111,12 +111,12 @@ func doInstall(c *cli.Context) error {
 	}
 
 	// Copy the original image to a temporary file.
-	tmp_image, err := ioutil.TempFile("", "codestand")
+	tmpImage, err := ioutil.TempFile("", "codestand")
 	if err != nil {
 		return err
 	}
 
-	defer os.Remove(tmp_image.Name())
+	defer os.Remove(tmpImage.Name())
 
 	content, err := ioutil.ReadFile(image)
 	if err != nil {
@@ -128,12 +128,12 @@ func doInstall(c *cli.Context) error {
 	content, err = replaceAndFillBytes(content, "__WIFI_SSID__REPLACE_ME__", wifiSSID)
 	content, err = replaceAndFillBytes(content, "__WIFI_PASSWORD__REPLACE_ME__", wifiPassword)
 
-	if _, err := tmp_image.Write(content); err != nil {
+	if _, err := tmpImage.Write(content); err != nil {
 		return err
 	}
-	if err := tmp_image.Close(); err != nil {
+	if err := tmpImage.Close(); err != nil {
 		return err
 	}
 
-	return installer(serial, tmp_image.Name())
+	return installer(serial, tmpImage.Name())
 }
