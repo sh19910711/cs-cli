@@ -16,6 +16,7 @@ var commands = []cli.Command{
 	configCommand,
 	versionCommand,
 	installCommand,
+	devicesCommand,
 }
 
 func Run(args []string) {
