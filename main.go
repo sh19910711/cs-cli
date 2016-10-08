@@ -19,6 +19,7 @@ var commands = []cli.Command{
 	devicesCommand,
 	addDeviceCommand,
 	buildCommand,
+	deployImageCommand,
 }
 
 func Run(args []string) {
