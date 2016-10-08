@@ -70,7 +70,7 @@ func doConfig(c *cli.Context) error {
 
 	// Predefined config
 	configs := make(map[string] Config)
-	configs["BAORD"] = Config {
+	configs["BOARD"] = Config {
 		Type: "string",
 		Default: "esp8266",
 	}
