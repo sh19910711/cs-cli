@@ -18,6 +18,7 @@ var commands = []cli.Command{
 	installCommand,
 	devicesCommand,
 	addDeviceCommand,
+	buildCommand,
 }
 
 func Run(args []string) {
