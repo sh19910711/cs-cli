@@ -1,6 +1,7 @@
 language: go
 go: 1.7
 go_import_path: github.com/codestand/build
+sudo: required
 
 install:
   - make init
@@ -8,3 +9,8 @@ install:
 
 script:
   - go test -v ./...
+
+  - ./codestand new hello
+  - cd hello
+  - ../codestand config
+  - ../codestand build
