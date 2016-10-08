@@ -1,11 +1,19 @@
 package main
 import (
 	"os"
+	"os/exec"
 	"io/ioutil"
 	"github.com/parnurzeal/gorequest"
 	"github.com/urfave/cli"
 	"github.com/Songmu/prompter"
 )
+
+func RunCommand(cmd string, args ...string) error {
+	c := exec.Command(cmd, args...)
+	c.Stdout = os.Stdout
+	c.Stderr = os.Stderr
+	return c.Run()
+}
 
 func GetArgumentOrPromptPassword(c *cli.Context, flag, desc string) string {
 	arg := c.String(flag)
