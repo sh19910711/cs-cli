@@ -32,7 +32,7 @@ func doAddDevice(c *cli.Context) error {
 
 	status, _, err := InvokeAPI("POST", "/apps/" + appName + "/devices", map[string]string {
 		"device": deviceName,
-	})
+	}, "")
 
 	if err != nil {
 		return err

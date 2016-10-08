@@ -66,7 +66,8 @@ func signIn() (string, string, string, error) {
 	}
 }
 
-func InvokeAPI(method, path string, queries map[string]string) (int, []byte, error) {
+
+func InvokeAPI(method, path string, queries map[string]string, file string) (int, []byte, error) {
 
 	url, username, token, err := signIn()
 	if err != nil {
@@ -75,6 +76,16 @@ func InvokeAPI(method, path string, queries map[string]string) (int, []byte, err
 
 	request := gorequest.New().
 		CustomMethod(method, fmt.Sprintf("%v/api/%v%v", url, username, path))
+
+
+	if file != "" {
+		content, err := ioutil.ReadFile(file)
+		if err != nil {
+			return 0, nil, err
+		}
+
+		request = request.Type("multipart").SendFile(content, file)
+	}
 
 	for k, v := range queries {
 		request = request.Query(k + "=" + v)

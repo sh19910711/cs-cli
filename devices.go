@@ -25,7 +25,7 @@ type ListDevicesResponse struct {
 
 func doDevices(c *cli.Context) error {
 
-	status, body, err := InvokeAPI("GET", "/devices", nil)
+	status, body, err := InvokeAPI("GET", "/devices", nil, "")
 	if err != nil {
 		return err
 	}
