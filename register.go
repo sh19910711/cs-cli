@@ -24,7 +24,7 @@ func doRegister(c *cli.Context) error {
 
 	status, _, err := InvokeAPI("POST", "/apps", map[string]string {
 		"name": name,
-	}, "")
+	}, nil)
 
 	if err != nil {
 		return err

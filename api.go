@@ -67,7 +67,7 @@ func signIn() (string, string, string, error) {
 }
 
 
-func InvokeAPI(method, path string, queries map[string]string, file string) (int, []byte, error) {
+func InvokeAPI(method, path string, queries map[string]string, files map[string]string) (int, []byte, error) {
 
 	url, username, token, err := signIn()
 	if err != nil {
@@ -78,13 +78,16 @@ func InvokeAPI(method, path string, queries map[string]string, file string) (int
 		CustomMethod(method, fmt.Sprintf("%v/api/%v%v", url, username, path))
 
 
-	if file != "" {
-		content, err := ioutil.ReadFile(file)
-		if err != nil {
-			return 0, nil, err
-		}
+	if len(files) > 0 {
+		request = request.Type("multipart")
+		for fieldname, path := range files {
+			content, err := ioutil.ReadFile(path)
+			if err != nil {
+				return 0, nil, err
+			}
 
-		request = request.Type("multipart").SendFile(content, file)
+			request = request.Type("multipart").SendFile(content, path, fieldname)
+		}
 	}
 
 	for k, v := range queries {
