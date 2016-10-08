@@ -8,7 +8,6 @@ import (
 	"path"
 	"os"
 	"io/ioutil"
-	"github.com/Songmu/prompter"
 	"github.com/urfave/cli"
 )
 
@@ -23,7 +22,7 @@ var installCommand = cli.Command {
 			Usage: "The board name. (esp8266)",
 		},
 		cli.StringFlag{
-			Name: "device_name",
+			Name: "device-name",
 			Value:"",
 			Usage: "The device name.",
 		},
@@ -38,12 +37,12 @@ var installCommand = cli.Command {
 			Usage: "The firmware image file.",
 		},
 		cli.StringFlag{
-			Name: "wifi_ssid",
+			Name: "wifi-ssid",
 			Value:"",
 			Usage: "The Wi-Fi SSID.",
 		},
 		cli.StringFlag{
-			Name: "wifi_password",
+			Name: "wifi-password",
 			Value:"",
 			Usage: "The Wi-Fi password.",
 		},
@@ -66,22 +65,13 @@ func replaceAndFillBytes(content []byte, old, new string) ([]byte, error) {
 	return content, nil
 }
 
-func getArgumentOrPrompt(c *cli.Context, flag, desc, def string) string {
-	arg := c.String(flag)
-	if arg == "" {
-		arg = prompter.Prompt(desc, def)
-	}
-
-	return arg
-}
-
 func doInstall(c *cli.Context) error {
-	board        := getArgumentOrPrompt(c, "board", "Board name", "esp8266")
-	serial       := getArgumentOrPrompt(c, "serial", "Serial port", DEFAULT_SERIAL_PORT)
+	board        := GetArgumentOrPrompt(c, "board", "Board name", "esp8266")
+	serial       := GetArgumentOrPrompt(c, "serial", "Serial port", DEFAULT_SERIAL_PORT)
 	image        := c.String("image")
-	deviceName   := getArgumentOrPrompt(c, "device_name", "Device name", "")
-	wifiSSID     := getArgumentOrPrompt(c, "wifi_ssid", "Wi-Fi SSID", "")
-	wifiPassword := getArgumentOrPrompt(c, "wifi_password", "Wi-Fi password", "")
+	deviceName   := GetArgumentOrPrompt(c, "device-name", "Device name", "")
+	wifiSSID     := GetArgumentOrPrompt(c, "wifi-ssid", "Wi-Fi SSID", "")
+	wifiPassword := GetArgumentOrPromptPassword(c, "wifi-password", "Wi-Fi password")
 
 	// Validate inputs.
 	var installer func(serial, image string) error

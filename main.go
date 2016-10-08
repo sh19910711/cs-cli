@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"fmt"
 	"errors"
 	"github.com/urfave/cli"
 )
@@ -11,9 +12,14 @@ var Version = "dev"
 
 var commands = []cli.Command{
 	newCommand,
+	registerCommand,
 	configCommand,
 	versionCommand,
 	installCommand,
+	devicesCommand,
+	addDeviceCommand,
+	buildCommand,
+	deployImageCommand,
 }
 
 func Run(args []string) {
@@ -21,7 +27,12 @@ func Run(args []string) {
 	app.Commands = commands
 	app.Version = Version
 	app.Usage = "Codestand CLI"
-	app.Run(args)
+
+	err := app.Run(args)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
 
 func main() {
