@@ -22,7 +22,7 @@ var installCommand = cli.Command {
 			Usage: "The board name. (esp8266)",
 		},
 		cli.StringFlag{
-			Name: "device_name",
+			Name: "device-name",
 			Value:"",
 			Usage: "The device name.",
 		},
@@ -37,12 +37,12 @@ var installCommand = cli.Command {
 			Usage: "The firmware image file.",
 		},
 		cli.StringFlag{
-			Name: "wifi_ssid",
+			Name: "wifi-ssid",
 			Value:"",
 			Usage: "The Wi-Fi SSID.",
 		},
 		cli.StringFlag{
-			Name: "wifi_password",
+			Name: "wifi-password",
 			Value:"",
 			Usage: "The Wi-Fi password.",
 		},
@@ -69,9 +69,9 @@ func doInstall(c *cli.Context) error {
 	board        := GetArgumentOrPrompt(c, "board", "Board name", "esp8266")
 	serial       := GetArgumentOrPrompt(c, "serial", "Serial port", DEFAULT_SERIAL_PORT)
 	image        := c.String("image")
-	deviceName   := GetArgumentOrPrompt(c, "device_name", "Device name", "")
-	wifiSSID     := GetArgumentOrPrompt(c, "wifi_ssid", "Wi-Fi SSID", "")
-	wifiPassword := GetArgumentOrPrompt(c, "wifi_password", "Wi-Fi password", "")
+	deviceName   := GetArgumentOrPrompt(c, "device-name", "Device name", "")
+	wifiSSID     := GetArgumentOrPrompt(c, "wifi-ssid", "Wi-Fi SSID", "")
+	wifiPassword := GetArgumentOrPrompt(c, "wifi-password", "Wi-Fi password", "")
 
 	// Validate inputs.
 	var installer func(serial, image string) error
