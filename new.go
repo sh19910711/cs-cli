@@ -20,7 +20,7 @@ sources:
   - main.cpp
 `
 
-var mainCppTmpl = `#include <app.h>
+var mainCppTmpl = `#include "app.h"
 
 void setup() {
 
