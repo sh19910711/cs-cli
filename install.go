@@ -71,7 +71,7 @@ func doInstall(c *cli.Context) error {
 	image        := c.String("image")
 	deviceName   := GetArgumentOrPrompt(c, "device-name", "Device name", "")
 	wifiSSID     := GetArgumentOrPrompt(c, "wifi-ssid", "Wi-Fi SSID", "")
-	wifiPassword := GetArgumentOrPrompt(c, "wifi-password", "Wi-Fi password", "")
+	wifiPassword := GetArgumentOrPromptPassword(c, "wifi-password", "Wi-Fi password")
 
 	// Validate inputs.
 	var installer func(serial, image string) error

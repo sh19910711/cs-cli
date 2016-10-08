@@ -7,6 +7,15 @@ import (
 	"github.com/Songmu/prompter"
 )
 
+func GetArgumentOrPromptPassword(c *cli.Context, flag, desc string) string {
+	arg := c.String(flag)
+	if arg == "" {
+		arg = prompter.Password(desc)
+	}
+
+	return arg
+}
+
 func GetArgumentOrPrompt(c *cli.Context, flag, desc, def string) string {
 	arg := c.String(flag)
 	if arg == "" {
