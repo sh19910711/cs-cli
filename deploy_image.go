@@ -29,7 +29,7 @@ func doDeployImage(c *cli.Context) error {
 	appName := GetArgumentOrPrompt(c, "app-name", "Application Name", "")
 	image := GetArgumentOrPrompt(c, "image", "The image file", "")
 
-	status, _, err := InvokeAPI("POST", "/apps/" + appName + "/image_deployments",
+	status, _, err := InvokeAPI("POST", "/apps/" + appName + "/deployments",
 		nil, map[string]string { "image": image })
 
 	if err != nil {

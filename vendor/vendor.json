@@ -9,6 +9,12 @@
 			"revisionTime": "2015-07-27T04:03:49Z"
 		},
 		{
+			"checksumSHA1": "35+OTcK/xoCyEtk3ZCayYAzd6Es=",
+			"path": "github.com/jhoonb/archivex",
+			"revision": "b669bdadd30ace382d6e082dfcc8e33b926db1a1",
+			"revisionTime": "2016-06-24T15:28:36Z"
+		},
+		{
 			"checksumSHA1": "xZuhljnmBysJPta/lMyYmJdujCg=",
 			"path": "github.com/mattn/go-isatty",
 			"revision": "66b8e73f3f5cda9f96b69efd03dd3d7fc4a5cdb8",
