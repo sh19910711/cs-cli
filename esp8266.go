@@ -1,7 +1,7 @@
 package main
 
 const (
-	ESP8266_FIRMWARE_URL = "https://github.com/codestand/esp8266-firmware/releases/download/v0.0.0/firmware.bin"
+	ESP8266_FIRMWARE_URL = "https://github.com/codestand/esp8266-firmware/releases/download/v0.0.1/firmware.bin"
 )
 
 func ESP8266Installer(serial, image string) error {
