@@ -18,5 +18,5 @@ func doBuild(c *cli.Context) error {
 		return err
 	}
 
-	return RunCommand("docker", "run", "-v", cwd + ":/app", "-t", "codestand/baseos")
+	return RunCommand("docker", "run", "--delete", "-v", cwd + ":/app", "-t", "codestand/baseos")
 }
