@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"encoding/json"
 	"path"
 	"os"
 	"io/ioutil"
@@ -65,6 +66,10 @@ func replaceAndFillBytes(content []byte, old, new string) ([]byte, error) {
 	return content, nil
 }
 
+type RegisterDeviceResponse struct {
+	RandId string `json:"rand_id"`
+}
+
 func doInstall(c *cli.Context) error {
 	board        := GetArgumentOrPrompt(c, "board", "Board name", "esp8266")
 	serial       := GetArgumentOrPrompt(c, "serial", "Serial port", DEFAULT_SERIAL_PORT)
@@ -113,8 +118,24 @@ func doInstall(c *cli.Context) error {
 		return err
 	}
 
+	// Register the device.
+	_, body, err := InvokeAPI("POST", "/devices", map[string]string {
+		"name": deviceName,
+		"board": board,
+	}, nil)
+
+	if err != nil {
+		return nil
+	}
+
+	var resp RegisterDeviceResponse
+	err = json.Unmarshal(body, &resp)
+	if err != nil {
+		return err
+	}
+
 	// Replace REPLACE_ME.
-	content, err = replaceAndFillBytes(content, "__DEVICE_NAME__REPLACE_ME__", deviceName)
+	content, err = replaceAndFillBytes(content, "__DEVICE_LONG_LONG_RAND_ID__REPLACE_ME__", resp.RandId)
 	content, err = replaceAndFillBytes(content, "__WIFI_SSID__REPLACE_ME__", wifiSSID)
 	content, err = replaceAndFillBytes(content, "__WIFI_PASSWORD__REPLACE_ME__", wifiPassword)
 
